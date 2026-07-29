@@ -1,0 +1,38 @@
+# Node modules
+node_modules/
+
+# Build output
+build/
+dist/
+
+# Log files
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files (e.g., VS Code, JetBrains)
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Test or coverage files
+coverage/
+
+# Kubernetes folder
+kubernetes/
+
+# Temporary or lock files
+npm-debug.log
+yarn-debug.log
+yarn.lock
+package-lock.json
+
+# Docker related files
+.dockerignore
+Dockerfile

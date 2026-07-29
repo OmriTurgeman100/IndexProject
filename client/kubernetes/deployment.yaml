@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: index-client
+  labels:
+    app: index-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: index-client
+  template:
+    metadata:
+      labels:
+        app: index-client
+    spec:
+      containers:
+        - name: index-client
+          image: omiturgeman100/index_client:v35
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80

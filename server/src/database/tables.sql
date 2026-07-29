@@ -1,0 +1,326 @@
+create table system_info (
+    system_id serial primary key,
+    system_name text,
+    impact text,
+    owned_by text,
+    core_network text,
+    main_site text,
+    site_location text,
+    masad text,
+    secondary_site text,
+    backup_type text,
+    infrastructure_type text,
+    system_uses_infrastructure_cert boolean,
+    cert_type text
+);
+
+create table system_virtual_machines (
+    id serial primary key,
+    system_parent integer references system_info(system_id),
+    title text,
+    site_location text
+);
+
+create table system_dependencies (
+    id serial primary key,
+    system_parent integer references system_info(system_id),
+    dependency text
+);
+
+create table system_authentication (
+    id serial primary key,
+    system_parent integer references system_info(system_id),
+    authentication_type text
+);
+
+create table system_dep_info (
+    id serial primary key,
+    system_parent integer references system_info(system_id),
+    system_dep_parent integer references system_dependencies(id),
+    description text
+);
+
+alter table system_info 
+add column active_location text default 'UnKnown'; 
+
+alter table system_virtual_machines
+add column network text default 'UnKnown',
+add column type text default 'UnKnown';
+
+create table service_info (
+    service_id serial primary key,
+    service_name text,
+    impact text,
+    core_network text,
+    cert_type text,
+    main_site text,
+    main_site_location text,
+    masad text,
+    secondary_site text,
+    secondary_site_location text,
+    backup_type text,
+    additional_site text
+);
+
+create table service_dependencies (
+    id serial primary key,
+    service_parent integer references service_info(service_id),
+    dependency text
+);
+
+create table service_virtual_machines (
+    id serial primary key,
+    service_parent integer references service_info(service_id),
+    title text,
+    site_location text
+);
+
+create table service_dep_info (
+    id serial primary key,
+    service_parent integer references service_info(service_id),
+    service_dep_parent integer references service_dependencies(id),
+    description text
+);
+
+alter table service_info 
+add column active_location text default 'UnKnown';
+
+alter table service_virtual_machines
+add column network text default 'UnKnown',
+add column type text default 'UnKnown';
+
+create table system_service_relationship (
+    id serial primary key,
+    system_id integer references system_info(system_id) on delete cascade,
+    service_id integer references service_info(service_id) on delete cascade
+);
+
+create table users (
+    id serial primary key,
+    username varchar(50) unique not null,
+    password text not null,
+    role text default 'guest'
+);
+
+alter table system_info 
+add column info text default 'UnKnown',
+add column third_site text default 'UnKnown',
+add column environment text default 'UnKnown',
+add column cert_infrastructure text default 'UnKnown';
+
+alter table service_info 
+add column info text default 'UnKnown',
+add column third_site text default 'UnKnown',
+add column environment text default 'UnKnown',
+add column cert_infrastructure text default 'UnKnown',
+add column owned_by text default 'UnKnown';
+
+create table system_links (
+	id serial primary key,
+    system_parent integer references system_info(system_id),
+    title text,
+    link text
+);
+
+create table service_links (
+	id serial primary key,
+    service_parent integer references service_info(service_id),
+    title text,
+    link text
+);
+
+ALTER TABLE users
+ADD COLUMN access_scope TEXT NOT NULL DEFAULT 'total'
+CHECK (access_scope IN ('total','custom'));
+
+
+CREATE TABLE user_entity_access (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+
+  system_id  INTEGER REFERENCES system_info(system_id),
+  service_id INTEGER REFERENCES service_info(service_id),
+
+  UNIQUE (user_id, system_id),
+  UNIQUE (user_id, service_id)
+);
+
+
+CREATE TABLE logs (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,            
+  action TEXT NOT NULL,         
+  route TEXT NOT NULL,          
+  status_code INTEGER NOT NULL, 
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+-- docs
+create table system_docs (
+    id serial primary key,
+    system_id integer references system_info(system_id),
+    title text not null,
+    content jsonb,
+    created_at timestamp default now()
+);
+
+create table service_docs (
+    id serial primary key,
+    service_id integer references service_info(service_id),
+    title text not null,
+    content jsonb,
+    created_at timestamp default now()
+);
+
+-- new server cluster field.
+alter table system_virtual_machines
+add column cluster text default 'UnKnown';
+
+alter table service_virtual_machines
+add column cluster text default 'UnKnown';
+
+CREATE TABLE system_files (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES system_info(system_id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
+    filename TEXT NOT NULL UNIQUE, 
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE service_files (
+    id SERIAL PRIMARY KEY,
+    service_id INTEGER REFERENCES service_info(service_id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
+    filename TEXT NOT NULL UNIQUE, 
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- new fields
+alter table system_info
+add column preferred_site text;
+
+alter table service_info
+add column preferred_site text;
+
+-- removing old fields
+
+ALTER TABLE system_info
+DROP COLUMN main_site,
+DROP COLUMN site_location,
+DROP COLUMN system_uses_infrastructure_cert,
+DROP COLUMN cert_type;
+
+ALTER TABLE service_info
+DROP COLUMN cert_type,
+DROP COLUMN main_site,
+DROP COLUMN main_site_location,
+DROP COLUMN secondary_site_location,
+DROP COLUMN additional_site;
+
+alter table system_info
+alter column active_location drop default;
+
+alter table service_info
+alter column active_location drop default;
+
+-- new servers fields
+alter table system_virtual_machines
+add column host text,
+add column ip text;
+
+alter table service_virtual_machines
+add column host text,
+add column ip text;
+
+-- new server fields 
+alter table system_virtual_machines
+add column room text,
+add column rack text;
+
+alter table service_virtual_machines
+add column room text,
+add column rack text;
+
+alter table system_virtual_machines 
+alter column title set not null,
+add constraint not_empty check (trim(title) != '');
+
+alter table service_virtual_machines 
+alter column title set not null,
+add constraint not_empty check (trim(title) != '');
+
+alter table system_dependencies
+alter column dependency set not null,
+add constraint not_empty check (trim(dependency) != '');
+
+alter table service_dependencies
+alter column dependency set not null,
+add constraint not_empty check (trim(dependency) != '');
+
+alter table system_authentication
+alter column authentication_type set not null,
+add constraint not_empty check (trim(authentication_type) != '');
+
+alter table system_dep_info 
+alter column description set not null,
+add constraint not_empty check (trim(description) != '');
+
+alter table service_dep_info 
+alter column description set not null,
+add constraint not_empty check (trim(description) != '');
+
+-- scripts
+create table system_scripts (
+	id serial primary key,
+	system_parent integer references system_info(system_id),
+	title text not null unique check(trim(title) <> ''),
+	description text not null unique check(trim(description) <> ''),
+    filename text not null unique
+    check (trim(filename) <> '' and filename ~ '^[A-Za-z0-9_.-]+\.py$') 
+);
+
+create table service_scripts (
+	id serial primary key,
+	service_parent integer references service_info(service_id),
+	title text not null unique check(trim(title) <> ''),
+	description text not null unique check(trim(description) <> ''),
+    filename text not null unique
+    check (trim(filename) <> '' and filename ~ '^[A-Za-z0-9_.-]+\.py$') 
+);
+
+alter table users
+add column script_execution_scope text
+not null check(script_execution_scope in ('total', 'custom')) default 'custom';
+
+CREATE TABLE user_script_access (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+
+  system_script_id  INTEGER REFERENCES system_scripts(id),
+  service_script_id INTEGER REFERENCES service_scripts(id),
+
+  UNIQUE (user_id, system_script_id),
+  UNIQUE (user_id, service_script_id)
+);
+
+CREATE TABLE service_active_location_history (
+    id SERIAL PRIMARY KEY,
+    service_id INTEGER NOT NULL REFERENCES service_info(service_id) ON DELETE CASCADE,
+    active_location TEXT,
+    started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    ended_at TIMESTAMPTZ
+);
+
+CREATE TABLE system_active_location_history (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER NOT NULL REFERENCES system_info(system_id) ON DELETE CASCADE,
+    active_location TEXT,
+    started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    ended_at TIMESTAMPTZ
+);
+
+alter table logs
+add column body text;
+
+alter table users
+add column is_script boolean not null default false;

@@ -1,0 +1,240 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  text-decoration: none;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+a {
+  color: inherit;
+}
+
+.active {
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+}
+
+.visualization_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  margin: 10px;
+  gap: 15px;
+}
+
+.auth_wallpaper_1 {
+  height: 100%;
+  width: 50%;
+  object-fit: cover;
+  object-position: right;
+}
+
+.editor-container {
+  display: flex;
+  justify-content: center;
+  background-color: #f3f4f6;
+  min-height: 100vh;
+  padding: 2rem;
+  overflow-x: auto;
+}
+
+.editor-page {
+  background: white;
+  border: 1px solid #c7c7c7;
+  border-radius: 4px;
+  width: 816px;
+  min-height: 1056px;
+  padding: 56px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  outline: none;
+  font-family: "Times New Roman", Georgia, serif;
+  font-size: 12pt;
+  line-height: 1.6;
+  color: #202124;
+}
+
+/* Headings */
+.editor-page h1 {
+  font-size: 24pt;
+  font-weight: bold;
+  margin: 24px 0 12px;
+}
+
+.editor-page h2 {
+  font-size: 20pt;
+  font-weight: bold;
+  margin: 20px 0 10px;
+}
+
+.editor-page h3 {
+  font-size: 16pt;
+  font-weight: bold;
+  margin: 16px 0 8px;
+}
+
+/* Paragraphs */
+.editor-page p {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+/* Lists */
+.editor-page ul,
+.editor-page ol {
+  margin: 12px 0 12px 40px;
+}
+
+.editor-page li {
+  margin: 4px 0;
+}
+
+/* Blockquote */
+.editor-page blockquote {
+  text-align: right;
+  border-left: none;
+  border-right: 3px solid #ddd;
+  padding-right: 1em;
+  padding-left: 0;
+}
+
+/* Code block */
+.editor-page pre {
+  background: #f1f3f4;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 10pt;
+  overflow-x: auto;
+}
+
+.editor-page code {
+  font-family: "Courier New", monospace;
+  background: #f1f3f4;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+/* Table */
+.editor-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 14px;
+  border: 2px solid #9ca3af;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  table-layout: fixed;
+}
+
+.editor-page th,
+.editor-page td {
+  padding: 12px 16px;
+  border: 1px solid #9ca3af;
+  text-align: left;
+}
+
+.editor-page th {
+  background-color: #e5e7eb;
+  font-weight: 700;
+  color: #111827;
+}
+
+.editor-page tr:nth-child(even) td {
+  background-color: #f3f4f6;
+}
+
+.editor-page tr:hover td {
+  background-color: #d1d5db;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.editor-page td {
+  color: #202124;
+}
+
+.editor-page img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.decorations-highlight {
+  background-color: yellow;
+}
+
+.decorations-highlight-active {
+  background-color: #f97316 !important;
+  color: #fff !important;
+  border-radius: 2px;
+  outline: 2px solid rgba(249, 115, 22, 0.5);
+}
+
+.react-calendar-heatmap .color-empty-light {
+  fill: #ebedf0;
+}
+
+.react-calendar-heatmap .color-empty-dark {
+  fill: #161b22;
+}
+
+.react-calendar-heatmap .color-scale-1-light {
+  fill: #9be9a8;
+}
+
+.react-calendar-heatmap .color-scale-2-light {
+  fill: #40c463;
+}
+
+.react-calendar-heatmap .color-scale-3-light {
+  fill: #30a14e;
+}
+
+.react-calendar-heatmap .color-scale-4-light {
+  fill: #216e39;
+}
+
+.react-calendar-heatmap .color-scale-1-dark {
+  fill: #0e4429;
+}
+
+.react-calendar-heatmap .color-scale-2-dark {
+  fill: #006d32;
+}
+
+.react-calendar-heatmap .color-scale-3-dark {
+  fill: #26a641;
+}
+
+.react-calendar-heatmap .color-scale-4-dark {
+  fill: #39d353;
+}
+
+.auth_wallpaper_center {
+  height: 100%;
+  width: 50%;
+  object-fit: cover;
+  object-position: center;
+}

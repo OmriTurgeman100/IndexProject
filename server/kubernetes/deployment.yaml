@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: index-server
+  labels:
+    app: index-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: index-server
+  template:
+    metadata:
+      labels:
+        app: index-server
+    spec:
+      containers:
+        - name: index-server
+          image: omiturgeman100/index_server:v26
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: "postgres"
+            - name: DB_NAME
+              value: "systems"
+            - name: DB_USER
+              value: "postgres"
+            - name: DB_PASS
+              value: "postgres"
+            - name: NODE_ENV
+              value: "development"
+            - name: JWT_SECRET_TOKEN
+              value: "o1rjoro1ojrji1i2trnjti3ntiitj23ti3toi322tt32"
+            - name: JWT_REFRESH_TOKEN
+              value: "x9kQmP7R4sT8vE1LJ5nC6D0HfWZB3yUuMGrpx286dsq1"
+            - name: S3_BUCKET
+              value: "indexhive"
+            - name: S3_REGION
+              value: "us-east-1"
+            - name: S3_ENDPOINT
+              value: "http://s3.name-shoham.branch-yesodot.org/"
+            - name: S3_ACCESS_KEY
+              value: "minioadmin"
+            - name: S3_SECRET_KEY
+              value: "minioadmin"
+            - name: SSH_HOST
+              value: "ip"
+            - name: SSH_USER
+              value: "username"
+            - name: SSH_PASSWORD
+              value: "password"

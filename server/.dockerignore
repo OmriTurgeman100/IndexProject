@@ -1,0 +1,48 @@
+# Node.js dependencies
+node_modules
+
+# Logs
+*.log
+
+# tests folder
+/tests/
+
+# kubernetes
+/kubernetes/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# npm debug files
+npm-debug.log*
+
+# dotenv files (if you're not copying it into the container)
+.env
+
+# build artifacts (if you're using a build process like TypeScript or Babel)
+dist/
+build/
+
+# Temporary files
+*.swp
+*.swo
+
+# IDE or editor directories/files
+.vscode/
+.idea/
+
+# Docker files related to the build process
+Dockerfile
+.dockerignore
+
+# Test coverage and reports
+coverage/
+*.lcov
+
+# Yarn and npm lock files (optional, depends on your project structure)
+yarn.lock
+package-lock.json
+
+# Ignore SQL files
+*.sql
